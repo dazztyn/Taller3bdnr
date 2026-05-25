@@ -48,12 +48,61 @@ export class AnaliticasService {
     };
   }
 
-  // Ejemplo para gráfico: Ventas por categoría
+  // Ventas por categoría
   async obtenerVentasPorCategoria(filtros: FiltrosAnaliticas) {
     const where = this.construirWhere(filtros);
     const rs = await this.chService.getClient().query({
       query: `SELECT categoria, count(*) as cantidad FROM compras ${where} GROUP BY categoria ORDER BY cantidad DESC`
     });
     return await rs.json();
+  }
+
+  // Compras por ciudad
+  async obtenerComprasPorCiudad(filtros: FiltrosAnaliticas) {
+    const where = this.construirWhere(filtros);
+    const rs = await this.chService.getClient().query({
+      query: `SELECT ciudad, count(*) as cantidad FROM compras ${where} GROUP BY ciudad ORDER BY cantidad DESC`
+    });
+    return (await rs.json()) as any;
+  }
+
+  // Ventas por fecha [cite: 74]
+  async obtenerVentasPorFecha(filtros: FiltrosAnaliticas) {
+    const where = this.construirWhere(filtros);
+    const rs = await this.chService.getClient().query({
+      query: `SELECT fecha, count(*) as cantidad FROM compras ${where} GROUP BY fecha ORDER BY fecha ASC`
+    });
+    return (await rs.json()) as any;
+  }
+
+  // Métodos de pago más usados
+  async obtenerMetodosPago(filtros: FiltrosAnaliticas) {
+    const where = this.construirWhere(filtros);
+    const rs = await this.chService.getClient().query({
+      query: `SELECT metodopago, count(*) as cantidad FROM compras ${where} GROUP BY metodopago ORDER BY cantidad DESC`
+    });
+    return (await rs.json()) as any;
+  }
+
+  // Compras por rango etario 
+  async obtenerComprasPorRangoEtario(filtros: FiltrosAnaliticas) {
+    const where = this.construirWhere(filtros);
+    const rs = await this.chService.getClient().query({
+      query: `
+        SELECT 
+          CASE 
+            WHEN edad < 18 THEN 'Menor a 18'
+            WHEN edad BETWEEN 18 AND 25 THEN '18-25'
+            WHEN edad BETWEEN 26 AND 35 THEN '26-35'
+            WHEN edad BETWEEN 36 AND 50 THEN '36-50'
+            ELSE 'Mayor a 50'
+          END AS rango,
+          count(*) as cantidad
+        FROM compras ${where} 
+        GROUP BY rango 
+        ORDER BY min(edad) ASC
+      `
+    });
+    return (await rs.json()) as any;
   }
 }
