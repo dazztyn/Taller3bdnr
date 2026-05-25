@@ -23,11 +23,11 @@ export class AnaliticasService {
     return condiciones.length > 0 ? `WHERE ${condiciones.join(' AND ')}` : '';
   }
 
-  async obtenerKpisDashboard(filtros: FiltrosAnaliticas) {
+async obtenerKpisDashboard(filtros: FiltrosAnaliticas) {
     const where = this.construirWhere(filtros);
     const client = this.chService.getClient();
 
-// 1. Total de ventas
+    // 1. Total de ventas
     const rsTotal = await client.query({ query: `SELECT count(*) as total FROM compras ${where}` });
     const totalVentas = (await rsTotal.json()) as any;
 
@@ -35,16 +35,38 @@ export class AnaliticasService {
     const rsPromedio = await client.query({ query: `SELECT avg(precio) as promedio FROM compras ${where}` });
     const promedioGasto = (await rsPromedio.json()) as any;
 
-    // 3. Categoría más vendida 
+    // 3. Categoría más vendida
     const rsCategoria = await client.query({ 
       query: `SELECT categoria, count(*) as cantidad FROM compras ${where} GROUP BY categoria ORDER BY cantidad DESC LIMIT 1` 
     });
     const categoriaTop = (await rsCategoria.json()) as any;
 
+    // 4. Producto más vendido 
+    const rsProducto = await client.query({ 
+      query: `SELECT producto, count(*) as cantidad FROM compras ${where} GROUP BY producto ORDER BY cantidad DESC LIMIT 1` 
+    });
+    const productoTop = (await rsProducto.json()) as any;
+
+    // 5. Ciudad con más compras 
+    const rsCiudad = await client.query({ 
+      query: `SELECT ciudad, count(*) as cantidad FROM compras ${where} GROUP BY ciudad ORDER BY cantidad DESC LIMIT 1` 
+    });
+    const ciudadTop = (await rsCiudad.json()) as any;
+
+    // 6. Método de pago más utilizado 
+    const rsMetodo = await client.query({ 
+      query: `SELECT metodopago, count(*) as cantidad FROM compras ${where} GROUP BY metodopago ORDER BY cantidad DESC LIMIT 1` 
+    });
+    const metodoTop = (await rsMetodo.json()) as any;
+
+    // Retornamos todos los KPIs consolidados
     return {
       totalVentas: totalVentas.data[0]?.total || 0,
       promedioGasto: totalVentas.data[0]?.total > 0 ? promedioGasto.data[0]?.promedio : 0,
-      categoriaMasVendida: categoriaTop.data[0]?.categoria || null
+      categoriaMasVendida: categoriaTop.data[0]?.categoria || null,
+      productoMasVendido: productoTop.data[0]?.producto || null,
+      ciudadConMasCompras: ciudadTop.data[0]?.ciudad || null,
+      metodoPagoMasUtilizado: metodoTop.data[0]?.metodopago || null,
     };
   }
 
