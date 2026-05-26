@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Delete } from '@nestjs/common';
 import { EtlService } from './etl.service';
 
 @Controller('etl')
@@ -8,5 +8,10 @@ export class EtlController {
   @Post('importar')
   async importarDatos(@Body('ruta') ruta: string) {
     return await this.etlService.importarDataset(ruta);
+  }
+
+  @Delete('limpiar')
+  async limpiarBaseDeDatos() {
+    return await this.etlService.limpiarDatos();
   }
 }

@@ -20,7 +20,6 @@ export class EtlService {
       fs.createReadStream(filePath)
         .pipe(csv())
         .on('data', async (row) => {
-          // Mapeo de datos al formato de ClickHouse
           batch.push({
             usuarioid: Number(row.usuarioid),
             edad: Number(row.edad),
@@ -33,7 +32,6 @@ export class EtlService {
             metodopago: row.metodopago.trim()
           });
 
-          // Cuando el lote alcanza el límite, pausamos el stream y enviamos a BD
           if (batch.length >= BATCH_SIZE) {
             const currentBatch = [...batch];
             batch = [];
@@ -43,7 +41,6 @@ export class EtlService {
           }
         })
         .on('end', async () => {
-          // Insertar el remanente
           if (batch.length > 0) {
             await this.insertarLote(batch);
             totalInsertados += batch.length;
@@ -56,6 +53,15 @@ export class EtlService {
           reject(error);
         });
     });
+  }
+
+  async limpiarDatos() {
+    this.logger.warn('Ejecutando TRUNCATE para vaciar la tabla de compras...');
+    await this.chService.getClient().command({
+      query: 'TRUNCATE TABLE compras',
+    });
+    this.logger.log('Tabla vaciada exitosamente.');
+    return { message: 'Base de datos reiniciada. Lista para la demostración.' };
   }
 
   private async insertarLote(data: any[]) {

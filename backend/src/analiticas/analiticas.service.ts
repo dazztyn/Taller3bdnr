@@ -12,7 +12,6 @@ export interface FiltrosAnaliticas {
 export class AnaliticasService {
   constructor(private readonly chService: ClickhouseService) {}
 
-  // Generador dinámico de la cláusula WHERE
   private construirWhere(filtros: FiltrosAnaliticas): string {
     const condiciones: string[] = [];
     if (filtros.ciudad) condiciones.push(`ciudad = '${filtros.ciudad}'`);
@@ -70,7 +69,7 @@ async obtenerKpisDashboard(filtros: FiltrosAnaliticas) {
     };
   }
 
-  // Ventas por categoría
+  // Ventas por categoria
   async obtenerVentasPorCategoria(filtros: FiltrosAnaliticas) {
     const where = this.construirWhere(filtros);
     const rs = await this.chService.getClient().query({
@@ -104,7 +103,7 @@ async obtenerKpisDashboard(filtros: FiltrosAnaliticas) {
       return (await rs.json()) as any;
     }
 
-  // Métodos de pago más usados
+  // Metodos de pago mas usados
   async obtenerMetodosPago(filtros: FiltrosAnaliticas) {
     const where = this.construirWhere(filtros);
     const rs = await this.chService.getClient().query({
@@ -135,7 +134,7 @@ async obtenerKpisDashboard(filtros: FiltrosAnaliticas) {
     return (await rs.json()) as any;
   }
 
-  // Top 10 Productos más vendidos
+  // Top 10 Productos mas vendidos
   async obtenerProductosMasVendidos(filtros: FiltrosAnaliticas) {
     const where = this.construirWhere(filtros);
     const rs = await this.chService.getClient().query({
