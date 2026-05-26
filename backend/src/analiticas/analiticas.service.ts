@@ -88,14 +88,21 @@ async obtenerKpisDashboard(filtros: FiltrosAnaliticas) {
     return (await rs.json()) as any;
   }
 
-  // Ventas por fecha [cite: 74]
-  async obtenerVentasPorFecha(filtros: FiltrosAnaliticas) {
-    const where = this.construirWhere(filtros);
-    const rs = await this.chService.getClient().query({
-      query: `SELECT fecha, count(*) as cantidad FROM compras ${where} GROUP BY fecha ORDER BY fecha ASC`
-    });
-    return (await rs.json()) as any;
-  }
+  // Ventas por mes
+    async obtenerVentasPorFecha(filtros: FiltrosAnaliticas) {
+      const where = this.construirWhere(filtros);
+      const rs = await this.chService.getClient().query({
+        query: `
+          SELECT 
+            toString(toStartOfMonth(fecha)) as fecha, 
+            count(*) as cantidad 
+          FROM compras ${where} 
+          GROUP BY fecha 
+          ORDER BY fecha ASC
+        `
+      });
+      return (await rs.json()) as any;
+    }
 
   // Métodos de pago más usados
   async obtenerMetodosPago(filtros: FiltrosAnaliticas) {
