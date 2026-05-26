@@ -1,5 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { AnaliticasService, type FiltrosAnaliticas } from './analiticas.service';
+
 @Controller('analiticas')
 export class AnaliticasController {
   constructor(private readonly analiticasService: AnaliticasService) {}

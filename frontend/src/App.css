@@ -3,7 +3,7 @@
   padding: 5px 10px;
   border-radius: 5px;
   color: var(--accent);
-  background: var(--accent-bg);
+  background-color: var(--color-black);
   border: 2px solid transparent;
   transition: border-color 0.3s;
   margin-bottom: 24px;
@@ -16,7 +16,9 @@
     outline-offset: 2px;
   }
 }
-
+body {
+  background-color: #000000;
+}
 .hero {
   position: relative;
 

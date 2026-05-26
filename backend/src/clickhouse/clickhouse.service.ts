@@ -10,7 +10,7 @@ export class ClickhouseService implements OnModuleInit {
   this.client = createClient({
         url: 'http://localhost:8123',
         username: 'default',
-        password: 'admin', // <-- Ahora usamos la contraseña forzada
+        password: 'admin',
         database: 'default',
       });
     await this.inicializarTabla();

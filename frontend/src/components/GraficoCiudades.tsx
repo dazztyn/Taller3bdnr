@@ -27,7 +27,7 @@ export default function GraficoCiudades({ data }: Props) {
     <ResponsiveContainer width="100%" height={300}> 
         <BarChart data={data} margin={{ left: 10 }}> 
             <CartesianGrid strokeDasharray="3 3" /> 
-            <XAxis dataKey="ciudad" stroke="#ffffff" /> <YAxis domain={calcularDomain(data)} stroke="#ffffff" tickFormatter={formatearNumero}/> <Tooltip
+            <XAxis dataKey="ciudad" stroke="#000000" /> <YAxis domain={calcularDomain(data)} stroke="#000000" tickFormatter={formatearNumero}/> <Tooltip
               formatter={(value) => Number(value).toLocaleString()}
             />
             <Bar dataKey="cantidad" fill="#e21111" /> 
