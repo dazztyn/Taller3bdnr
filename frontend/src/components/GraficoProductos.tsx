@@ -23,9 +23,9 @@ string {
         return ( 
         <div style={{ marginBottom: '40px' }}> 
         <h2>Top 10 Productos Más Vendidos</h2> 
-        <ResponsiveContainer width="100%" height={500}> 
-            <BarChart layout="vertical" data={data} > 
-                <CartesianGrid strokeDasharray="3 3" /> <XAxis type="number" stroke="#ffffff" domain={calcularDomain(data)} tickFormatter={formatearNumero} /> 
+        <ResponsiveContainer width="100%" height={500} > 
+            <BarChart layout="vertical" data={data} margin={{ left: 10 }} > 
+                <CartesianGrid strokeDasharray="3 3" /> <XAxis type="number"  stroke="#ffffff" domain={calcularDomain(data)} tickFormatter={formatearNumero} /> 
                 <YAxis type="category" stroke="#ffffff" dataKey="producto" width={150} /> 
                 <Tooltip formatter={(value) => Number(value).toLocaleString() } /> 
                     <Bar dataKey="cantidad" fill="#de8219" /> 

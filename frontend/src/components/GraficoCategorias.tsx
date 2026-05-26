@@ -25,7 +25,7 @@ interface Props { data: any[]; }
 export default function GraficoCategorias({ data }: Props) { 
     return ( <div style={{ marginBottom: '40px' }}> <h2>Ventas por Categoría</h2> 
     <ResponsiveContainer width="100%" height={300}> 
-        <BarChart data={data}> 
+        <BarChart data={data} margin={{ left: 10 }}> 
             <CartesianGrid strokeDasharray="3 3" /> 
             <XAxis dataKey="categoria" stroke="#ffffff" /> <YAxis  domain={calcularDomain(data)} stroke="#ffffff" tickFormatter={formatearNumero}/> <Tooltip
   formatter={(value) => Number(value).toLocaleString()}

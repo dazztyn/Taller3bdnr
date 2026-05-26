@@ -42,7 +42,7 @@ export default function Dashboard() {
                 if (!dashboard) { 
                     return <div>Cargando...</div>; 
                 } return (
-                <div style={{ padding: '40px' }}> 
+                <div style={{ padding: '50px' }}> 
                 <h1>Dashboard Analítico</h1> 
                 <DashboardCards dashboard={dashboard} /> 
                 <GraficoCategorias data={categorias} /> 
