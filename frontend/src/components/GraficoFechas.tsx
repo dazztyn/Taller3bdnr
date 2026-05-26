@@ -27,6 +27,6 @@ export default function GraficoFechas({ data }: any) {
     <ResponsiveContainer width="100%" height={300}> 
         <LineChart data={data}> 
             <CartesianGrid strokeDasharray="3 3" /> 
-            <XAxis dataKey="fecha" tickFormatter={(fecha) => fecha.slice(5)} /> 
-                <YAxis domain={[6500, 'auto']} tickFormatter={formatearNumero} /> 
+            <XAxis dataKey="fecha" stroke="#ffffff" tickFormatter={(fecha) => fecha.slice(5)} /> 
+                <YAxis domain={[6500, 'auto']} tickFormatter={formatearNumero} stroke="#ffffff"/> 
                 <Tooltip /> <Line type="monotone" dataKey="cantidad" stroke="#8b5cf6" /> </LineChart> </ResponsiveContainer> </div> ); }
