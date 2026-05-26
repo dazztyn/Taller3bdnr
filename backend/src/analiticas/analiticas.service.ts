@@ -134,4 +134,19 @@ async obtenerKpisDashboard(filtros: FiltrosAnaliticas) {
     });
     return (await rs.json()) as any;
   }
+
+  // Top 10 Productos más vendidos
+  async obtenerProductosMasVendidos(filtros: FiltrosAnaliticas) {
+    const where = this.construirWhere(filtros);
+    const rs = await this.chService.getClient().query({
+      query: `
+        SELECT producto, count(*) as cantidad 
+        FROM compras ${where} 
+        GROUP BY producto 
+        ORDER BY cantidad DESC 
+        LIMIT 10
+      `
+    });
+    return (await rs.json()) as any;
+  }
 }

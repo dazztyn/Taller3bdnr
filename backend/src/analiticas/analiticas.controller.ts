@@ -33,4 +33,9 @@ export class AnaliticasController {
   async obtenerComprasRangoEtario(@Query() filtros: FiltrosAnaliticas) {
     return await this.analiticasService.obtenerComprasPorRangoEtario(filtros);
   }
+
+  @Get('productos-mas-vendidos')
+  async obtenerProductosMasVendidos(@Query() filtros: FiltrosAnaliticas) {
+    return await this.analiticasService.obtenerProductosMasVendidos(filtros);
+  }
 }
