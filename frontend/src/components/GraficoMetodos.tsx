@@ -30,6 +30,6 @@ export default function GraficoMetodos({ data }: Props) {
             <XAxis dataKey="metodopago" stroke="#ffffff" /> <YAxis  domain={calcularDomain(data)} stroke="#ffffff" tickFormatter={formatearNumero}/> <Tooltip
                           formatter={(value) => Number(value).toLocaleString()}
                         />
-            <Bar dataKey="cantidad" fill="#8b5cf6"/> 
+            <Bar dataKey="cantidad" fill="#40ab28"/> 
             </BarChart> 
             </ResponsiveContainer> </div> ); }

@@ -1,34 +1,26 @@
 import { 
-    BarChart, 
-    Bar, 
-    XAxis, 
-    YAxis, 
-    Tooltip, 
-    CartesianGrid, 
-    ResponsiveContainer, 
+  PieChart, 
+  Pie, 
+  Cell, 
+  Tooltip, 
+  ResponsiveContainer, 
 } from 'recharts'; 
-function formatearNumero(valor: string | number) {
-  const num = Number(valor);
-
-  if (num >= 1000000) {
-    return `${(num / 1000000).toFixed(1)}M`;
-  }
-
-  if (num >= 1000) {
-    return `${(num / 1000).toFixed(1)}K`;
-  }
-
-  return num.toString();
-}
-interface Props { data: any[]; } 
-export default function GraficoEdades({ data }: Props) { 
-    return ( <div style={{ marginBottom: '40px' }}> <h2>Ventas por Rango de Edad</h2> 
-    <ResponsiveContainer width="100%" height={300}> 
-        <BarChart data={data}> 
-            <CartesianGrid strokeDasharray="3 3" /> 
-            <XAxis dataKey="rango" stroke="#ffffff" /> <YAxis  stroke="#ffffff" tickFormatter={formatearNumero}/> <Tooltip
-              formatter={(value) => Number(value).toLocaleString()}
-            />
-            <Bar dataKey="cantidad" /> 
-            </BarChart> 
-            </ResponsiveContainer> </div> ); }
+const COLORS = [ 
+  '#3b82f6', 
+  '#22c55e', 
+  '#ef4444', 
+  '#f59e0b', 
+  '#8b5cf6', 
+]; export default function GraficoEdades({ data }: any) { 
+  return ( <div style={{ 
+    marginBottom: '40px' }}> 
+    <h2>Compras por Rango Etario</h2> 
+    <ResponsiveContainer width="100%" height={400}> 
+      <PieChart> 
+        <Pie data={data} dataKey="cantidad" nameKey="rango" outerRadius={140} label={({ rango, percent }) => `${rango} (${(percent * 100).toFixed(1)}%)` } > 
+          {data.map((_: any, index: number) => ( 
+            <Cell key={index} 
+          fill={COLORS[index % COLORS.length]} /> ))} </Pie> 
+          <Tooltip formatter={(value, _, props) => { const total = data.reduce( (acc, item) => acc + Number(item.cantidad), 0 ); const porcentaje = (Number(value) / total) * 100; return [ `${Number(value).toLocaleString()} (${porcentaje.toFixed(1)}%)`, props.payload.rango, ]; }} />
+          </PieChart> 
+          </ResponsiveContainer> </div> ); }
